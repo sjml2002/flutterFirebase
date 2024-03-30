@@ -67,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
                 child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Colors.blue,
+                backgroundColor: Colors.red,
               ),
               onPressed: gotoDrawPage,
               child: const SizedBox(
