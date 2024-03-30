@@ -15,7 +15,8 @@ class _DrawPageState extends State<DrawPage> {
   @override
   void initState() {
     super.initState();
-    final uri = Uri.parse("ws://192.168.200.126:4343"); //자신의 컴퓨터 ip주소로 해야함
+    //자신의 컴퓨터 ip주소로 해야함
+    final uri = Uri.parse("ws://192.168.200.136:4343");
     channel = WebSocketChannel.connect(uri);
     channel.ready;
     channel.sink.add(widget.name);
@@ -43,11 +44,11 @@ class _DrawPageState extends State<DrawPage> {
               height: 30,
             ),
             StreamBuilder(
-              stream: channel.stream,
-              builder: (context, snapshot) {
-                return Text(snapshot.hasData ? '${snapshot.data}' : 'default');
-              } 
-            )
+                stream: channel.stream,
+                builder: (context, snapshot) {
+                  return Text(
+                      snapshot.hasData ? '${snapshot.data}' : 'default');
+                })
             // submit 버튼 만듭시다
           ],
         ),
