@@ -51,32 +51,37 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              child: const Text(
-                '이름을 입력하세요.',
-              ),
+              width: 120,
+              height: 30,
+              margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+              child: const Text('이름을 입력하세요.'),
             ),
             Container(
-              child: TextField(
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: "이름을 입력하시오.",
-                ),
-                controller: nameController,
-              ),
+                width: 350,
+                height: 100,
+                margin: const EdgeInsets.fromLTRB(0,0,0,1),
+                  child: TextField(
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "이름을 입력하시오.",
+                    ),
+                    controller: nameController,
+                  ),
             ),
             Container(
+              width: 200,
+              height: 50,
                 child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
-              ),
-              onPressed: gotoDrawPage,
-              child: const SizedBox(
-                  width: 200.0,
-                  height: 300.0,
-                  child: Text(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                  ),
+                  onPressed: gotoDrawPage,
+                  child: const Text(
                     "로그인하기",
-                  )),
-            ))
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )
+                  ),
+            ),
             // submit 버튼 만듭시다
           ],
         ),
