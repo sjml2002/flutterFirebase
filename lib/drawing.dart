@@ -12,24 +12,29 @@ class DrawPage extends StatefulWidget {
 
 class _DrawPageState extends State<DrawPage> {
   late final WebSocketChannel channel;
-  late List users = [widget.name];
+  late List<String> users = [];
+  final _alarmScrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     //자신의 컴퓨터 ip주소로 해야함
-    final uri = Uri.parse("ws://192.168.200.178:4343");
+    final uri = Uri.parse("ws://localhost:4343");
     channel = WebSocketChannel.connect(uri);
     channel.ready;
     channel.sink.add(widget.name); //websocketserver.emit
-    channel.stream.listen( (dynamic srvname) => {
-      print(srvname), //debug
-      users.add(srvname), //debug
-      setState(() => {
-        users.add(srvname),
-      }),
+    channel.stream.listen((dynamic srvname) {
+      setState(() {
+        users = srvname.split(',');
+      });
     });
-    users.add(widget.name);
+  }
+
+  //소멸자
+  @override
+  void dispose() {
+    channel.sink.close();
+    super.dispose();
   }
 
   @override
@@ -38,39 +43,39 @@ class _DrawPageState extends State<DrawPage> {
       appBar: AppBar(
         title: const Text("Drawing Page"),
         shape: const Border(
-          bottom: BorderSide(
-            color: Colors.grey,
-            width: 1,
-          )
-        ),
+            bottom: BorderSide(
+          color: Colors.grey,
+          width: 1,
+        )),
       ),
       body: Center(
         child: Stack(
-          children: <Widget> [
+          children: <Widget>[
             Positioned(
               top: 0,
               left: 0,
-                child: Container(
+              child: Container(
                   width: 200,
                   height: 300,
                   decoration: const BoxDecoration(
-                    border: Border(
-                      right: BorderSide(color: Colors.black),
-                      bottom: BorderSide(color: Colors.black),
-                    )
-                  ),
+                      border: Border(
+                    right: BorderSide(color: Colors.black),
+                    bottom: BorderSide(color: Colors.black),
+                  )),
                   child: ListView.builder(
-                  padding: const EdgeInsets.all(5),
-                  itemCount: users.length,
-                  itemBuilder: (BuildContext context, int idx) {
-                    return Container(
-                      height: 10,
-                      padding: const EdgeInsets.fromLTRB(0,0,0,3),
-                      child: Center(child: Text('${users[idx]}', style: const TextStyle(fontSize: 50))),
-                    );
-                  },
-                )
-              ),
+                    controller: _alarmScrollController,
+                    padding: const EdgeInsets.all(5),
+                    itemCount: users.length,
+                    itemBuilder: (BuildContext context, int idx) {
+                      return Container(
+                        height: 30,
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 3),
+                        child: Center(
+                            child: Text('${users[idx]} 님이 입장하셨습니다',
+                                style: const TextStyle(fontSize: 12))),
+                      );
+                    },
+                  )),
             ),
           ],
         ),
